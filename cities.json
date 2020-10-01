@@ -1,18 +1,4 @@
 {
-    "Arniqueira": {
-        "Candangolândia": 5.5,
-        "Ceilândia": 2.7,
-        "Cruzeiro": 3.8,
-        "Núcleo Bandeirante": 5.5,
-        "Plano Piloto": 5.5,
-        "Recanto das Emas": 3.8,
-        "Riacho Fundo I": 3.8,
-        "Riacho Fundo II": 3.8,
-        "SIA": 5.5,
-        "Taguatinga": 2.7,
-        "Vicente Pires": 2.7,
-        "Águas Claras": 2.7
-    },
     "Brazlândia": {
         "Ceilândia": 5.5,
         "Cruzeiro": 5.5,
@@ -22,7 +8,6 @@
         "Taguatinga": 5.5
     },
     "Candangolândia": {
-        "Arniqueira": 5.5,
         "Ceilândia": 3.8,
         "Cruzeiro": 2.7,
         "Guará": 3.8,
@@ -39,7 +24,6 @@
         "Vicente Pires": 3.8
     },
     "Ceilândia": {
-        "Arniqueira": 2.7,
         "Brazlândia": 5.5,
         "Candangolândia": 3.8,
         "Cruzeiro": 5.5,
@@ -63,7 +47,6 @@
         "Águas Claras": 2.7
     },
     "Cruzeiro": {
-        "Arniqueira": 3.8,
         "Brazlândia": 5.5,
         "Candangolândia": 2.7,
         "Ceilândia": 5.5,
@@ -191,7 +174,6 @@
         "Taguatinga": 5.5
     },
     "Núcleo Bandeirante": {
-        "Arniqueira": 5.5,
         "Candangolândia": 5.5,
         "Ceilândia": 3.8,
         "Cruzeiro": 3.8,
@@ -258,7 +240,6 @@
         "Sudoeste": 5.5
     },
     "Plano Piloto": {
-        "Arniqueira": 5.5,
         "Brazlândia": 5.5,
         "Candangolândia": 5.5,
         "Ceilândia": 5.5,
@@ -289,7 +270,6 @@
         "Águas Claras": 5.5
     },
     "Recanto das Emas": {
-        "Arniqueira": 3.8,
         "Candangolândia": 5.5,
         "Ceilândia": 3.8,
         "Cruzeiro": 5.5,
@@ -305,7 +285,6 @@
         "Vicente Pires": 3.8
     },
     "Riacho Fundo I": {
-        "Arniqueira": 3.8,
         "Candangolândia": 5.5,
         "Ceilândia": 3.8,
         "Cruzeiro": 5.5,
@@ -322,7 +301,6 @@
         "Vicente Pires": 3.8
     },
     "Riacho Fundo II": {
-        "Arniqueira": 3.8,
         "Candangolândia": 3.8,
         "Ceilândia": 3.8,
         "Cruzeiro": 5.5,
@@ -337,7 +315,6 @@
         "Águas Claras": 3.8
     },
     "SIA": {
-        "Arniqueira": 5.5,
         "Brazlândia": 5.5,
         "Candangolândia": 2.7,
         "Ceilândia": 5.5,
@@ -443,7 +420,6 @@
         "Sudoeste": 5.5
     },
     "Taguatinga": {
-        "Arniqueira": 2.7,
         "Brazlândia": 5.5,
         "Candangolândia": 3.8,
         "Ceilândia": 2.7,
@@ -466,7 +442,6 @@
         "Águas Claras": 2.7
     },
     "Vicente Pires": {
-        "Arniqueira": 2.7,
         "Candangolândia": 3.8,
         "Ceilândia": 3.8,
         "Estrutural": 3.8,
@@ -481,7 +456,6 @@
         "Águas Claras": 3.8
     },
     "Águas Claras": {
-        "Arniqueira": 2.7,
         "Ceilândia": 2.7,
         "Cruzeiro": 3.8,
         "Estrutural": 3.8,
