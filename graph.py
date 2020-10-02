@@ -32,12 +32,14 @@ class Graph():
         d = destiny
         path.append(d)
         
-        
-        trip_fare = dist[d][0]
-        
         while path[-1] != source:
             path.append(dist[d][1])
             d = dist[d][1]
         path.reverse()
+
+        trip_fare = {}
+
+        for i in range(len(path)-1):
+            trip_fare[path[i]] = (path[i+1], self.adjacency_list[path[i]][path[i+1]])
 
         return path, trip_fare

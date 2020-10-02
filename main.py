@@ -5,9 +5,10 @@ import sys
 import requests
 
 class Ui_MainWindow(object):
+    tableWidget = None
+
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        # MainWindow.setWindowFlag(QtCore.Qt.WindowMaximizeButtonHint, False)
         MainWindow.resize(800, 600)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.MinimumExpanding)
@@ -63,7 +64,29 @@ class Ui_MainWindow(object):
         self.pushButton.setObjectName("pushButton")
         self.pushButton.clicked.connect(self.search)
         self.verticalLayout.addWidget(self.pushButton)
-        spacerItem2 = QtWidgets.QSpacerItem(250, 20, QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Minimum)
+        spacerItem4 = QtWidgets.QSpacerItem(20, 70, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout.addItem(spacerItem4)
+        self.tableLayout = QtWidgets.QVBoxLayout()
+        self.tableLayout.setObjectName("tableLayout")
+        self.verticalLayout.addLayout(self.tableLayout)
+        self.totalLayout = QtWidgets.QHBoxLayout()
+        self.totalLayout.setObjectName("totalLayout")
+        self.total_label = QtWidgets.QLabel(self.centralwidget)
+        font = QtGui.QFont()
+        font.setPointSize(14)
+        self.total_label.setFont(font)
+        self.total_label.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.total_label.setObjectName("total_label")
+        self.totalLayout.addWidget(self.total_label)
+        self.value_fare = QtWidgets.QLabel(self.centralwidget)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.value_fare.setFont(font)
+        self.value_fare.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.value_fare.setObjectName("value_fare")
+        self.totalLayout.addWidget(self.value_fare)
+        self.verticalLayout.addLayout(self.totalLayout)
+        spacerItem2 = QtWidgets.QSpacerItem(350, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
         self.verticalLayout.addItem(spacerItem2)
         spacerItem3 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout.addItem(spacerItem3)
@@ -77,6 +100,8 @@ class Ui_MainWindow(object):
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
 
+        self.total_label.setHidden(True)
+        self.value_fare.setHidden(True)
         self.graph = Graph()
         self.loadComboBox(self.source_ComboBox)
 
@@ -89,6 +114,8 @@ class Ui_MainWindow(object):
         self.label.setText(_translate("MainWindow", "Origem"))
         self.label_2.setText(_translate("MainWindow", "Destino"))
         self.pushButton.setText(_translate("MainWindow", "Buscar"))
+        self.total_label.setText(_translate("MainWindow", "Total:"))
+        self.value_fare.setText(_translate("MainWindow", "xx"))
 
     def loadComboBox(self, comboBox, removed_city=None):
         comboBox.addItem(None)
@@ -152,8 +179,54 @@ class Ui_MainWindow(object):
         for i in range(len(path)):
             self.add_marker(list_lat_long[i], path[i])
 
-        print(list_lat_long)
-        print(path, trip_fare) 
+        self.drawControl = L.control.draw()
+        self.map.addControl(self.drawControl)
+        self.drawControl.featureGroup.toGeoJSON(lambda x: print(x))
+
+        self.total_label.setHidden(False)
+        self.value_fare.setHidden(False)
+        self.create_table(trip_fare)
+
+    def create_table(self, trip_fare):
+        tableWidget = QtWidgets.QTableWidget()
+
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(tableWidget.sizePolicy().hasHeightForWidth())
+
+        tableWidget.setSizePolicy(sizePolicy)
+        tableWidget.setRowCount(len(trip_fare.keys()))
+        tableWidget.setColumnCount(3)
+        tableWidget.setBaseSize(QtCore.QSize(0, 350))
+
+        header = tableWidget.horizontalHeader()       
+        header.setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
+        header.setSectionResizeMode(1, QtWidgets.QHeaderView.Stretch)
+        header.setSectionResizeMode(2, QtWidgets.QHeaderView.ResizeToContents)
+
+        tableWidget.setHorizontalHeaderItem(0, QtWidgets.QTableWidgetItem('Origem'))
+        tableWidget.setHorizontalHeaderItem(1, QtWidgets.QTableWidgetItem('Destino'))
+        tableWidget.setHorizontalHeaderItem(2, QtWidgets.QTableWidgetItem('Valor da passagem'))
+
+        total = 0
+
+        for i,city in enumerate(trip_fare.keys()):
+            tableWidget.setItem(i, 0, QtWidgets.QTableWidgetItem(list(trip_fare)[i]))
+            tableWidget.setItem(i, 1, QtWidgets.QTableWidgetItem(trip_fare[city][0]))
+
+            total = total + trip_fare[city][1]
+            item = QtWidgets.QTableWidgetItem('R$ {:.2f}'.format(trip_fare[city][1]))
+            item.setTextAlignment(QtCore.Qt.AlignCenter)
+            tableWidget.setItem(i, 2, item)
+
+        self.value_fare.setText('R$ {:.2f}'.format(total))
+
+        if self.tableWidget is None:
+            self.tableLayout.addWidget(tableWidget)
+            self.tableWidget = tableWidget
+        else:
+            self.tableLayout.replaceWidget(self.tableWidget, tableWidget)
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
