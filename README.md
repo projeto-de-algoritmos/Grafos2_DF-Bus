@@ -13,7 +13,12 @@
 O projeto tem como objetivo utilizar o conceito de grafos no ambiente de transporte coletivo na região do Distrito Federal. Através de dados coletados, com relação ao valor das passagens de ônibus no DF, será apresentado ao usuário o caminho com o menor custo para se chegar ao destino desejado, dado o lugar de origem. O caminho é definido através da utilização do algoritmo de Dijkstra.
 
 ## Screenshots
-Adicione 3 ou mais screenshots do projeto em funcionamento.
+#### Tela inicial
+![start_screen](images/start_screen.png)
+#### Opções
+![options](images/options.png)
+#### Resultado
+![result](images/result.png)
 
 ## Instalação 
 **Linguagem**: Python<br>
