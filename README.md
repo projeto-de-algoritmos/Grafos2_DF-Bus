@@ -34,10 +34,15 @@ O projeto tem como objetivo utilizar o conceito de grafos no ambiente de transpo
     ``` pip install -r requirements.txt ```
 
 ## Uso 
-Explique como usar seu projeto caso haja algum passo a passo após o comando de execução.
+### Para executar o projeto
+Após estar dentro da pasta do projeto e com todas as bibliotecas instaladas, existe os seguintes passos para visualização do projeto: <br>
+1. Entre na pasta do projeto pelo terminal e rode o seguinte comando no terminal: <br>
+    ``` python main.py ```
 
-## Outros 
-Quaisquer outras informações sobre seu projeto podem ser descritas abaixo.
+### Como usar
+1. Na lateral direita selecione a origem e destino.
+2. Clique no botão "Buscar".
+3. Será apresentado no mapa as cidades da origem até o destino.
 
 
 
