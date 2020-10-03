@@ -23,7 +23,7 @@ class Ui_MainWindow(object):
         self.mapLayout.setObjectName("mapLayout")
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.mapLayout.addItem(spacerItem)
-        self.addMap()
+        self.add_map()
         self.horizontalLayout_2.addLayout(self.mapLayout)
         self.verticalLayout = QtWidgets.QVBoxLayout()
         self.verticalLayout.setObjectName("verticalLayout")
@@ -99,7 +99,7 @@ class Ui_MainWindow(object):
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
-
+        
         self.total_label.setHidden(True)
         self.value_fare.setHidden(True)
         self.graph = Graph()
@@ -123,7 +123,7 @@ class Ui_MainWindow(object):
             if city != removed_city:
                 comboBox.addItem(city)
 
-    def addMap(self):
+    def add_map(self):
         self.mapWidget = MapWidget()
         self.mapLayout.addWidget(self.mapWidget)
 
@@ -171,7 +171,8 @@ class Ui_MainWindow(object):
         for layer in self.map.layers:
             if leaflet.layer.tile.tilelayer.TileLayer != type(layer):
                 self.map.removeLayer(layer)
-
+            
+        # L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(self.map)
         path, trip_fare = self.graph.get_path(self.source_ComboBox.currentText(), self.destiny_ComboBox.currentText())
 
         list_lat_long = self.get_lat_long(path)
@@ -179,9 +180,7 @@ class Ui_MainWindow(object):
         for i in range(len(path)):
             self.add_marker(list_lat_long[i], path[i])
 
-        self.drawControl = L.control.draw()
-        self.map.addControl(self.drawControl)
-        self.drawControl.featureGroup.toGeoJSON(lambda x: print(x))
+        # L.polyline(list_lat_long).addTo(self.map)
 
         self.total_label.setHidden(False)
         self.value_fare.setHidden(False)
@@ -189,6 +188,7 @@ class Ui_MainWindow(object):
 
     def create_table(self, trip_fare):
         tableWidget = QtWidgets.QTableWidget()
+        tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)     
 
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -224,9 +224,9 @@ class Ui_MainWindow(object):
 
         if self.tableWidget is None:
             self.tableLayout.addWidget(tableWidget)
-            self.tableWidget = tableWidget
         else:
             self.tableLayout.replaceWidget(self.tableWidget, tableWidget)
+        self.tableWidget = tableWidget
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
