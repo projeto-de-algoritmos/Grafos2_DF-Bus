@@ -23,7 +23,6 @@ class Ui_MainWindow(object):
         self.mapLayout.setObjectName("mapLayout")
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.mapLayout.addItem(spacerItem)
-        self.add_map()
         self.horizontalLayout_2.addLayout(self.mapLayout)
         self.verticalLayout = QtWidgets.QVBoxLayout()
         self.verticalLayout.setObjectName("verticalLayout")
@@ -100,6 +99,7 @@ class Ui_MainWindow(object):
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
         
+        self.add_map()
         self.total_label.setHidden(True)
         self.value_fare.setHidden(True)
         self.graph = Graph()
@@ -122,19 +122,6 @@ class Ui_MainWindow(object):
         for city in self.graph.adjacency_list.keys():
             if city != removed_city:
                 comboBox.addItem(city)
-
-    def add_map(self):
-        self.mapWidget = MapWidget()
-        self.mapLayout.addWidget(self.mapWidget)
-
-        self.map = L.map(self.mapWidget)
-        self.map.setView([-15.84972874, -47.93128967], 11)
-        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(self.map)
-
-    def add_marker(self, lat_long, city):
-        self.marker = L.marker(lat_long)
-        self.marker.bindPopup(city)
-        self.map.addLayer(self.marker)
 
     def enable_DestinyComboBox(self):
         if len(self.source_ComboBox.currentText()) != 0:
@@ -167,15 +154,27 @@ class Ui_MainWindow(object):
 
         return list_lat_long
 
+    def add_marker(self, lat_long, city):
+        marker = L.marker(lat_long)
+        marker.bindPopup(city)
+        self.map.addLayer(marker)
+
+    def add_map(self):
+        self.mapWidget = MapWidget()
+        self.mapLayout.addWidget(self.mapWidget)
+
+        self.map = L.map(self.mapWidget)
+        self.map.setView([-15.84972874, -47.93128967], 11)
+        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(self.map)
+
     def search(self):
-        for layer in self.map.layers:
-            if leaflet.layer.tile.tilelayer.TileLayer != type(layer):
-                self.map.removeLayer(layer)
-            
-        # L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(self.map)
         path, trip_fare = self.graph.get_path(self.source_ComboBox.currentText(), self.destiny_ComboBox.currentText())
 
         list_lat_long = self.get_lat_long(path)
+        for i in range(3):
+            for layer in self.map.layers:
+                if leaflet.layer.tile.tilelayer.TileLayer != type(layer):
+                    self.map.removeLayer(layer)
 
         for i in range(len(path)):
             self.add_marker(list_lat_long[i], path[i])
